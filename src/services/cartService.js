@@ -1,5 +1,7 @@
 import CartDao from "../dao/mongo/cartDB.js";
+import CartDaoMemory from "../dao/memoria/cartMem.js";
 import ProductDao from "../dao/mongo/productDB.js";
+const cartDaoMemory = new CartDaoMemory();
 const productDao = new ProductDao();
 const cartDao = new CartDao();
 

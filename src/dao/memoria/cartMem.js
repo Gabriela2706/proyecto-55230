@@ -1,4 +1,4 @@
-export default class CartDao {
+export default class CartDaoMemory {
   constructor() {
     this.cart = [];
   }
