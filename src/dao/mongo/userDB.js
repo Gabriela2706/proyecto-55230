@@ -5,26 +5,51 @@ export default class UserDao {
 
   //CRUD
   find = async () => {
-    return await userModel.find();
+    try {
+      return await userModel.find();
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   findOne = async (id) => {
-    const oneUser = await userModel.findOne(id);
-    return oneUser;
+    try {
+      const oneUser = await userModel.findOne(id);
+      return oneUser;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   create = async (user) => {
-    const newUser = await userModel.create(user);
-    return newUser;
+    try {
+      const newUser = await userModel.create(user);
+      return newUser;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   update = async (data) => {
-    const updateUser = await userModel.findOneAndUpdate(data);
-    return updateUser;
+    try {
+      const updateUser = await userModel.findOneAndUpdate(data);
+      return updateUser;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   delete = async (id) => {
-    const deleteUser = await userModel.deleteOne(id);
-    return deleteUser;
+    try {
+      const deleteUser = await userModel.deleteOne(id);
+      return deleteUser;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 }

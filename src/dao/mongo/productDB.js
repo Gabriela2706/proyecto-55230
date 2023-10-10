@@ -16,22 +16,44 @@ export default class ProductDao {
   };
 
   findOne = async (id) => {
-    const oneProduct = await productModel.findOne(id);
-    return oneProduct;
+    try {
+      const oneProduct = await productModel.findOne(id);
+      return oneProduct;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   create = async (product) => {
-    const newProduct = await productModel.create(product);
-    return newProduct;
+    try {
+      const newProduct = await productModel.create(product);
+      return newProduct;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   update = async (update) => {
-    const updatePropertiesOfProd = await productModel.findOneAndUpdate(update);
-    return updatePropertiesOfProd;
+    try {
+      const updatePropertiesOfProd = await productModel.findOneAndUpdate(
+        update
+      );
+      return updatePropertiesOfProd;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   delete = async (id) => {
-    const deleteProduct = await productModel.findOneAndDelete(id);
-    return deleteProduct;
+    try {
+      const deleteProduct = await productModel.findOneAndDelete(id);
+      return deleteProduct;
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 }
