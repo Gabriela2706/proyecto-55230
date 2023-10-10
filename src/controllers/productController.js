@@ -2,17 +2,18 @@ import * as productService from "../services/productService.js";
 
 export const GETAllProducts = async (req, res) => {
   try {
-    const { limit = 10, page = 1, sort = 1, ...query } = req.query;
-    let products = await productService.getAllProducts.paginate(query, {
-      limit: limit,
-      lean: true,
-      page: page,
-      sort: { price: +sort },
-    });
-
+    console.log("aqui");
+    // const { limit = 10, page = 1, sort = 1, ...query } = req.query;
+    // let products = await productService.getAllProducts.paginate(query, {
+    //   limit: limit,
+    //   lean: true,
+    //   page: page,
+    //   sort: { price: +sort },
+    // });
+    let products = await productService.getAllProducts();
     res.send(products);
   } catch (e) {
-    res.send({ error: true });
+    res.send(e);
   }
 };
 
@@ -39,11 +40,11 @@ export const POSTAddNewProduct = async (req, res) => {
 export const PUTUpdatePropertiesOfProd = async (req, res) => {
   try {
     const { id } = req.params;
-    let product = req.body;
-    const changes = await productService.updatePropertiesOfProd(id, product);
+    let update = req.body;
+    const changes = await productService.updatePropertiesOfProd(id, update);
     res.send(changes);
   } catch (e) {
-    res.send({ error: true });
+    console.log(e);
   }
 };
 
@@ -53,6 +54,6 @@ export const DELETEProduct = async (req, res) => {
     let removeProduct = await productService.deleteProduct(id);
     res.send(removeProduct);
   } catch (e) {
-    res.send({ error: true });
+    console.log(e);
   }
 };

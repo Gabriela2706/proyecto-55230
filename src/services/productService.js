@@ -6,12 +6,13 @@ export const getAllProducts = async () => {
     const allProducts = await productDao.find();
     return allProducts;
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
+    return e;
   }
 };
 export const getProductById = async (id) => {
   try {
-    const findProduct = await productDao.findOne({ _id: id });
+    const findProduct = await productDao.findOne(id);
     if (findProduct) {
       return findProduct;
     } else {
@@ -23,27 +24,27 @@ export const getProductById = async (id) => {
 };
 export const addNewProduct = async (product) => {
   try {
-    const { code } = product;
-    const validation = await productDao.findOne({ code: code });
-    if (validation) {
-      return `Product with existing code: ${code}`;
-    }
+    //onst { code } = product;
+    // const validation = await productDao.findOne({ code: code });
+    // if (validation) {
+    //   return `Product with existing code: ${code}`;
+    // }
     const newProduct = await productDao.create(product);
     return newProduct;
   } catch (e) {
     console.log(e.message);
   }
 };
-export const updatePropertiesOfProd = async (idUpdate, product) => {
+export const updatePropertiesOfProd = async (idUpdate, update) => {
   try {
-    let productFound = await productDao.findOne({ _id: idUpdate });
+    let productFound = await productDao.findOne(idUpdate);
     if (!productFound) {
       return `The product with id:${idUpdate} was not found.`;
     }
-    await productDao.update({ _id: productFound._id }, product);
+    await productDao.update(update);
     return `Product with changes made`;
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
   }
 };
 export const deleteProduct = async (id) => {
@@ -51,6 +52,6 @@ export const deleteProduct = async (id) => {
     await productDao.delete(id);
     return `Product successfully removed`;
   } catch (e) {
-    console.log(e.message);
+    console.log(e);
   }
 };

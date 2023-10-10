@@ -5,7 +5,14 @@ export default class ProductDao {
 
   //CRUD
   find = async () => {
-    return await productModel.find();
+    try {
+      console.log("llego");
+      const products = await productModel.find();
+      return products;
+    } catch (error) {
+      console.log(error);
+      return error;
+    }
   };
 
   findOne = async (id) => {
@@ -18,13 +25,13 @@ export default class ProductDao {
     return newProduct;
   };
 
-  update = async (data) => {
-    const updatePropertiesOfProd = await productModel.findOneAndUpdate(data);
+  update = async (update) => {
+    const updatePropertiesOfProd = await productModel.findOneAndUpdate(update);
     return updatePropertiesOfProd;
   };
 
   delete = async (id) => {
-    const deleteProduct = await productModel.deleteOne(id);
+    const deleteProduct = await productModel.findOneAndDelete(id);
     return deleteProduct;
   };
 }

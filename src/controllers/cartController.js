@@ -13,8 +13,8 @@ export const getCartById = async (req, res) => {
 };
 
 export const postCreateCart = async (req, res) => {
-  const body = req.body;
-  const newCart = await cartService.createCart(body);
+  const { products } = [];
+  const newCart = await cartService.createCart(products);
   res.send(console.log(newCart));
 };
 
@@ -26,7 +26,7 @@ export const postAddProductToCart = async (req, res) => {
 
 export const putUpdateToCart = async (req, res) => {
   const { cid, pid } = req.params;
-  const { quantity } = req.body;
+  const quantity = req.body;
   const changeQuantity = await cartService.updateProdQuantity(
     cid,
     pid,
@@ -35,9 +35,13 @@ export const putUpdateToCart = async (req, res) => {
   res.send(changeQuantity);
 };
 export const deleteOneProductToCart = async (req, res) => {
-  const { cid, pid } = req.params;
-  const deleteFromCart = await cartService.deletePidOfCid(cid, pid);
-  res.send(deleteFromCart);
+  try {
+    const { cid, pid } = req.params;
+    const deleteFromCart = await cartService.deletePidOfCid(cid, pid);
+    res.send(deleteFromCart);
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 export const deleteProductsToCart = async (req, res) => {

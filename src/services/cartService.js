@@ -1,4 +1,6 @@
 import CartDao from "../dao/mongo/cartDB.js";
+import ProductDao from "../dao/mongo/productDB.js";
+const productDao = new ProductDao();
 const cartDao = new CartDao();
 
 export const getAllCarts = async () => {
@@ -20,20 +22,21 @@ export const createCart = async (cart) => {
 };
 
 export const addProductToCart = async (cidCart, pidProduct) => {
-  if (!cidCart) return "Cart  Not Found";
-  if (!pidProduct) return "Product Not Found";
   const idCart = await cartDao.findOne({ _id: cidCart });
-  const idProduct = await cartDao.findOne({ _id: pidProduct });
+  if (!idCart) return "Cart  Not Found";
+  const idProduct = await productDao.findOne({ _id: pidProduct });
+  if (!idProduct) return "Product Not Found";
 
   idCart.products.push({ product: idProduct });
   idCart.save();
 };
 
 export const updateProdQuantity = async (cidCart, pidProduct, quantity) => {
-  if (!cidCart) return "Cart  Not Found";
-  const product = await productDao.finOne({ _id: pidProduct });
-  if (!product) return "Product not Exist";
   const cart = await cartDao.findOne({ _id: cidCart });
+  if (!cidCart) return "Cart  Not Found";
+  const product = await productDao.findOne({ _id: pidProduct });
+  if (!product) return "Product not Exist";
+
   cart.products.map((p) => {
     if (p.product._id == pidProduct) {
       p.quantity = quantity;
