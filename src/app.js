@@ -12,6 +12,10 @@ import passport from "passport";
 import __dirname from "./dirname.js";
 import handlebars from "express-handlebars";
 import config from "./config/config.js";
+import { Server as SocketServer } from "socket.io";
+import productViewsRoute from "./routers/viewsRoute/productViews.js";
+import cartViewsRoute from "./routers/viewsRoute/cartViews.js";
+
 const app = express();
 
 //CONEXION CON MONGOOSE ATLAS
@@ -29,6 +33,11 @@ app.use("/api/product", productRoute);
 app.use("/api/user", userRoute);
 //VISTAS
 app.use("/user", userViewsRoute);
+app.use("cart", cartViewsRoute);
+app.use("product", productViewsRoute);
+
+//CONTENIDO ESTATICO
+app.use(express.static(`${__dirname}/public`));
 
 //USO DE MIDDLWARES
 app.use(express.urlencoded({ extended: true })); //Esto me sirve para req.query para transformar el texto plano a objeto
@@ -54,6 +63,14 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //INICIALIZACION DE EXPRESS
-app.listen(config.PORT, () => {
+const appServer = app.listen(config.PORT, () => {
   console.log("servidor corriendo");
+});
+
+//SOCKET IO
+//ENVOLTORIO DE SOCKET IO
+const io = new SocketServer(appServer);
+//
+io.on("connection", async (SocketServer) => {
+  console.log(`Cliente con id: ${SocketServer.id} se ha conectado`);
 });

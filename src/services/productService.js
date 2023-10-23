@@ -1,4 +1,4 @@
-import ProductDao from "../dao/mongo/productDB.js";
+import { ProductDao } from "../dao/index.js";
 const productDao = new ProductDao();
 
 export const getAllProducts = async () => {

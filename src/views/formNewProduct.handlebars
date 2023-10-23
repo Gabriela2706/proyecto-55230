@@ -1,0 +1,22 @@
+{{! Se renderiza en /product/formNewProduct }}
+<div>
+  <h1>Ingreso de Stock</h1>
+  <div>
+    <ul>
+      <li>Nombre: <input id="title" name="title" type="text" /> </li>
+      <li>Descripcion:
+        <input id="description" name="description" type="text" />
+      </li>
+      <li>Precio: <input id="price" name="price" type="number" /> </li>
+      <li>Stock disponible:
+        <input id="stock" name="stock" type="number" />
+      </li>
+      <li>Codigo: <input id="code" name="code" type="text" /></li>
+    </ul>
+    <button type="button" onclick="formProducts()">Enviar!</button>
+  </div>
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/socketio.js"></script>

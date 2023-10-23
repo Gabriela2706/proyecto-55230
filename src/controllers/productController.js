@@ -57,3 +57,30 @@ export const DELETEProduct = async (req, res) => {
     console.log(e);
   }
 };
+
+//Vistas
+export const GETProducstHome = async (req, res) => {
+  try {
+    const products = await productService.getAllProducts();
+    res.send(`home`, { prod: products });
+  } catch (e) {
+    res.status(404).send({ error: true, msg: e });
+  }
+};
+
+export const GETFormNewProduct = async (req, res) => {
+  try {
+    res.render(`formNewProduct`);
+  } catch (e) {
+    res.status(404).send({ error: true, msg: e });
+  }
+};
+
+export const GETDetailProduct = async (req, res) => {
+  try {
+    const detailProduct = await productService.getProductById(id);
+    res.render(`products`, { prod: detailProduct });
+  } catch (e) {
+    res.status(404).send({ error: true, msg: e });
+  }
+};

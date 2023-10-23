@@ -1,12 +1,14 @@
 import * as userService from "../services/userService.js";
 import { getAllProducts } from "../services/productService.js";
 import { tokenGenerate } from "../config/jwt.js";
+import { Users, UsersDTO } from "../dto/usersDTO.js";
 
 export const GETCurrent = async (req, res) => {
   try {
-    res.send({ user: req.user });
+    const userFront = Users;
+    res.send(userFront); // al front le mando el user con la informacion recortada, solo nombre y apellido.
   } catch (e) {
-    res.send({ error: true });
+    res.status(401).send({ error: true, msg: e.message });
   }
 };
 
@@ -17,8 +19,9 @@ export const POSTLoginStrategyLocal = async (req, res) => {
       req.body.password
     );
 
-    if (!ingreso) return res.send({ error: true }); //Aca se genera el token
+    if (!ingreso) return res.send({ error: true });
     const token = tokenGenerate({
+      //Aca se genera el token
       sub: ingreso._id,
       ingreso: { email: ingreso.email },
     });
@@ -30,18 +33,32 @@ export const POSTLoginStrategyLocal = async (req, res) => {
     });
     res.send({ error: false, accessToken: token });
   } catch (e) {
-    res.send({ error: true });
+    res.status(401).send({ error: true, msg: e.message });
   }
 };
 
-export const POSTRegisterStrategyLocal = async (req, res) => {};
+export const POSTRegisterStrategyLocal = async (req, res) => {
+  try {
+    const { name, lastName, email, age, password } = req.body;
+    const register = await userService.addNewUser({
+      name,
+      lastName,
+      email,
+      age,
+      password,
+    });
+    res.send({ error: false, register: UsersDTO }); // al back le mando la info del dto
+  } catch (e) {
+    res.send({ error: true });
+  }
+};
 export const GETRedirectLoginGitHub = async (req, res) => {};
 export const GETCallbackLoginGitHub = async (req, res) => {};
 export const GETViewLogin = async (req, res) => {
   try {
     res.render(`login`);
   } catch (e) {
-    res.send({ error: true });
+    res.status(404).send({ error: true, msg: e.message });
   }
 };
 
@@ -49,15 +66,22 @@ export const GETViewRegister = async (req, res) => {
   try {
     res.render(`register`);
   } catch (e) {
-    res.send({ error: true });
+    res.status(404).send({ error: true, msg: e.message });
   }
 };
 export const GETViewProfile = async (req, res) => {
   try {
     let products = await getAllProducts();
-    res.render(`home`, { prod: products });
+    res.render(`home`, Users, { prod: products }); // a la vista profile le mando la info para el front y los productos disponibles.
   } catch (e) {
-    res.send({ error: true });
+    res.status(404).send({ error: true, msg: e.message });
+  }
+};
+export const GETChat = async (req, res) => {
+  try {
+    res.render(`chat`);
+  } catch (e) {
+    res.status(404).send({ error: true, msg: e.message });
   }
 };
 

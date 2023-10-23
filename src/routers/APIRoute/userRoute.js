@@ -1,11 +1,13 @@
 import { Router } from "express";
 import * as userController from "../../controllers/userController.js";
 import passport from "passport";
-
+import { userView, adminView } from "../../middlewares/securityMidd.js";
 const userRoute = Router();
+
 userRoute.get(
   "/session/current",
   passport.authenticate("current", { session: false }),
+  userView,
   userController.GETCurrent
 );
 userRoute.post(
@@ -14,6 +16,7 @@ userRoute.post(
     successRedirect: "/user/profile",
     failureMessage: "No se pudo realizar el ingreso correctamente",
   }),
+  adminView,
   userController.POSTLoginStrategyLocal
 );
 userRoute.post(
@@ -22,6 +25,7 @@ userRoute.post(
     successRedirect: "/user/login",
     failureMessage: "No se pudo realizar el registro correctamente",
   }),
+  adminView,
   userController.POSTRegisterStrategyLocal
 );
 userRoute.get(

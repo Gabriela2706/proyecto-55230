@@ -25,7 +25,7 @@ export const getCartById = async (req, res) => {
 export const postCreateCart = async (req, res) => {
   try {
     const { products } = [];
-    const newCart = await cartService.createCart(products);
+    const newCart = await cartService.createCart(req.body);
     res.send(console.log(newCart));
   } catch (e) {
     console.log(e);
@@ -79,5 +79,16 @@ export const deleteProductsToCart = async (req, res) => {
   } catch (e) {
     console.log(e);
     return e;
+  }
+};
+
+//vistas
+export const GETOneCart = async (req, res) => {
+  try {
+    const { cid } = req.params;
+    let cart = await cartService.getCartDetail(cid);
+    res.render(`cartDetail`, { oneCart: cart });
+  } catch (e) {
+    res.status(404).send({ error: true, msg: e });
   }
 };

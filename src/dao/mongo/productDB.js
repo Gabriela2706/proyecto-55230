@@ -6,12 +6,11 @@ export default class ProductDao {
   //CRUD
   find = async () => {
     try {
-      console.log("llego");
       const products = await productModel.find();
       return products;
-    } catch (error) {
-      console.log(error);
-      return error;
+    } catch (e) {
+      console.log(e);
+      return e;
     }
   };
 

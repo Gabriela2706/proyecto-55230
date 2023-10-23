@@ -6,4 +6,5 @@ export default {
   MONGO_URL: process.env.MONGO_URL,
   JWT_SECRET: process.env.JWT_SECRET,
   SESSION_SECRET: process.env.SESSION_SECRET,
+  PERSISTENCE: process.env.PERSISTENCE,
 };

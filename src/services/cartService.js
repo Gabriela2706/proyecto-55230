@@ -8,7 +8,7 @@ const cartDao = new CartDao();
 export const getAllCarts = async () => {
   try {
     const allCarts = await cartDao.find();
-    console.log(JSON.stringify(allCarts, null, "\t"));
+    //console.log(JSON.stringify(allCarts, null, "\t"));
     return allCarts;
   } catch (e) {
     console.log(e);

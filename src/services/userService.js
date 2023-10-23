@@ -1,12 +1,12 @@
 import UserDao from "../dao/mongo/userDB.js";
 import bcrypt from "bcrypt";
-
+import { UsersDTO, Users } from "../dto/usersDTO.js";
 const userDao = new UserDao();
 
 export const getAllUsers = async () => {
   try {
     const allUsers = await userDao.find();
-    return allUsers;
+    return allUsers.map((user) => new Users(user));
   } catch (e) {
     console.log(e.message);
   }
@@ -16,20 +16,21 @@ export const getUserByID = async (id) => {
   try {
     const oneUser = await userDao.findOne(id);
     if (!oneUser) return `User not found`;
-    return oneUser;
+    return new Users(oneUser.toObject());
   } catch (e) {
     console.log(e.message);
   }
 };
 export const addNewUser = async (user) => {
   try {
+    const userDTO = new UsersDTO(user);
     //name, lastName, email, password, role
     user.role = user.email == "admincoder@coder.com" ? "admin" : "visit";
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-    const createUser = await userDao.create(user);
+    const createUser = await userDao.create(userDTO);
 
-    return createUser;
+    return new Users(createUser.toObject());
   } catch (e) {
     console.log(e.message);
   }
