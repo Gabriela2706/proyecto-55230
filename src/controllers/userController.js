@@ -72,7 +72,7 @@ export const GETViewRegister = async (req, res) => {
 export const GETViewProfile = async (req, res) => {
   try {
     let products = await getAllProducts();
-    res.render(`home`, Users, { prod: products }); // a la vista profile le mando la info para el front y los productos disponibles.
+    res.render(`home`, { prod: products }); // a la vista profile le mando la info para el front y los productos disponibles.
   } catch (e) {
     res.status(404).send({ error: true, msg: e.message });
   }

@@ -26,19 +26,6 @@ app.engine("handlebars", handlebars.engine()); // se setea el motor de vistas
 app.set("views", `${__dirname}/views`); // le digo donde van a estar las vistas
 app.set("view engine", "handlebars"); // aca le digo cual es el motor que se va a utilizar para leer esas vistas
 
-//RUTAS DE EXPRESS
-//API
-app.use("/api/cart", cartRoute);
-app.use("/api/product", productRoute);
-app.use("/api/user", userRoute);
-//VISTAS
-app.use("/user", userViewsRoute);
-app.use("cart", cartViewsRoute);
-app.use("product", productViewsRoute);
-
-//CONTENIDO ESTATICO
-app.use(express.static(`${__dirname}/public`));
-
 //USO DE MIDDLWARES
 app.use(express.urlencoded({ extended: true })); //Esto me sirve para req.query para transformar el texto plano a objeto
 app.use(express.json());
@@ -56,6 +43,19 @@ app.use(
     ttl: 3000,
   })
 );
+
+//RUTAS DE EXPRESS
+//API
+app.use("/api/cart", cartRoute);
+app.use("/api/product", productRoute);
+app.use("/api/user", userRoute);
+//VISTAS
+app.use("/user", userViewsRoute);
+app.use("/cart", cartViewsRoute);
+app.use("/product", productViewsRoute);
+
+//CONTENIDO ESTATICO
+app.use(express.static(`${__dirname}/public`));
 
 //INICIALIZACION DE PASSPORT
 initLocalStrategy();

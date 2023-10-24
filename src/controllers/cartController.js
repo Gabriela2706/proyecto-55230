@@ -82,6 +82,17 @@ export const deleteProductsToCart = async (req, res) => {
   }
 };
 
+export const POSTPurchase = async (req, res) => {
+  try {
+    //Cierre del proceso de compra
+    const stockVerification = await cartService.stockVerification();
+    res.status(200).send({ error: false, stockVerification });
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};
+
 //vistas
 export const GETOneCart = async (req, res) => {
   try {

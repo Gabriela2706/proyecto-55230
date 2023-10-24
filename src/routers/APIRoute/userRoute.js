@@ -11,18 +11,18 @@ userRoute.get(
   userController.GETCurrent
 );
 userRoute.post(
-  "/login",
+  "/",
   passport.authenticate("login", {
-    successRedirect: "/user/profile",
+    successRedirect: "/profile",
     failureMessage: "No se pudo realizar el ingreso correctamente",
   }),
-  adminView,
   userController.POSTLoginStrategyLocal
 );
+userRoute.get("/profile", userController.GETViewProfile);
 userRoute.post(
   "/register",
   passport.authenticate("register", {
-    successRedirect: "/user/login",
+    successRedirect: "/login",
     failureMessage: "No se pudo realizar el registro correctamente",
   }),
   adminView,

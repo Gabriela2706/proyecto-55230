@@ -6,7 +6,7 @@ export default class ProductDao {
   //CRUD
   find = async () => {
     try {
-      const products = await productModel.find();
+      const products = await productModel.find().lean();
       return products;
     } catch (e) {
       console.log(e);

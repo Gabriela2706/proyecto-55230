@@ -21,7 +21,7 @@ export const getCartDetail = async (cidCart) => {
     let cartDetail = await cartDao.findOne({ _id: cidCart });
     if (!cartDetail) return "Cart  Not Found";
 
-    console.log(JSON.stringify(cartDetail, null, "\t"));
+    return JSON.stringify(cartDetail, null, "\t");
   } catch (e) {
     console.log(e);
     return e;
@@ -96,4 +96,17 @@ export const deleteCart = async (cidCart) => {
   idCartDelete.products = [];
   await idCartDelete.save();
   return console.log("cart empty");
+};
+//VERIFICO LA CANTIDAD PARA PODER TERMINAR LA COMPRA
+export const stockVerification = async (id, stock, quantity) => {
+  try {
+    const stockProduct = await productDao.findOne(id); // y si son muchos productos a consultar?
+    //como consulto el stock de ese id? id.stock?
+
+    if (stockProduct.stock > quantity) console.log("hay stock!"); // Si hay, deberia activarse el ticketService.finalizePurchase
+    return console.log("no hay stock!"); //Si no hay, deberia activarse el ticketService.incompletePurchase
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
 };

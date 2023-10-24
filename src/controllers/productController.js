@@ -2,7 +2,6 @@ import * as productService from "../services/productService.js";
 
 export const GETAllProducts = async (req, res) => {
   try {
-    console.log("aqui");
     // const { limit = 10, page = 1, sort = 1, ...query } = req.query;
     // let products = await productService.getAllProducts.paginate(query, {
     //   limit: limit,
@@ -33,7 +32,7 @@ export const POSTAddNewProduct = async (req, res) => {
     const newProduct = await productService.addNewProduct(body);
     res.send(newProduct);
   } catch (e) {
-    res.send({ error: true });
+    res.send(e.message);
   }
 };
 

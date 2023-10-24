@@ -4,7 +4,7 @@ import { adminView, userView } from "../../middlewares/securityMidd.js";
 const cartRoute = Router();
 
 cartRoute.get("/", adminView, cartController.getAllCarts);
-cartRoute.get("/:cid", adminView, cartController.getCartById);
+cartRoute.get("/:cid", cartController.getCartById);
 cartRoute.post("/", userView, cartController.postCreateCart);
 cartRoute.post(
   "/:cid/product/:pid",
