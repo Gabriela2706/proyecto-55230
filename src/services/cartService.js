@@ -47,6 +47,7 @@ export const addProductToCart = async (cidCart, pidProduct) => {
 
     idCart.products.push({ product: idProduct });
     idCart.save();
+    console.log("producto agregado!"); //Funciona, pero no se suman si tienen el mismo ID
   } catch (e) {
     console.log(e);
     return e;

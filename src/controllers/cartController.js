@@ -1,3 +1,4 @@
+//import { Carts } from "../dto/cartsDTO.js";
 import * as cartService from "../services/cartService.js";
 
 export const getAllCarts = async (req, res) => {
@@ -12,6 +13,7 @@ export const getAllCarts = async (req, res) => {
 
 export const getCartById = async (req, res) => {
   try {
+    //const cartInfoFront = new Carts();
     const { cid } = req.params;
     const cartById = await cartService.getCartDetail(cid);
 
@@ -39,7 +41,7 @@ export const postAddProductToCart = async (req, res) => {
     const addproducts = await cartService.addProductToCart(cid, pid);
     res.send(addproducts);
   } catch (e) {
-    console.log(e);
+    console.log(e.message);
     return e;
   }
 };

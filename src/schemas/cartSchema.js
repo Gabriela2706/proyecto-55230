@@ -3,7 +3,6 @@ import mongoose from "mongoose";
 const cartSchema = new mongoose.Schema({
   user: {
     type: String,
-    default: "Cliente anonimo",
   },
   products: {
     type: [

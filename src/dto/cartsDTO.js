@@ -4,5 +4,8 @@ export default class CartsDTO {
 }
 //DTo para el front
 export class Carts {
-  constructor(cart) {}
+  constructor(cart) {
+    this.user = cart.user;
+    this.products = [this.products.product, this.products.quantity];
+  }
 }
