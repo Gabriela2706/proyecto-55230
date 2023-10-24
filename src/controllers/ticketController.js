@@ -19,21 +19,3 @@ export const POSTNewTicket = async (req, res) => {
     res.status(404).send({ error: true, msg: e.message });
   }
 };
-
-export const POSTIncompletePurchase = async (req, res) => {
-  try {
-    //Aca se genera levanta la informacion de los productos que no tenian stock.
-    //se llama por un lado al incompletePurchase del service para que quede el array con los productos sin stock.
-  } catch (e) {
-    res.status(404).send({ error: true, msg: e.message });
-  }
-};
-
-export const POSTFinalizePurchase = async () => {
-  try {
-    const finalizePurchase = await ticketService.finalizePurchase();
-    res.send({ error: false, finalizePurchase });
-  } catch (e) {
-    res.status(404).send({ error: true, msg: e.message });
-  }
-};

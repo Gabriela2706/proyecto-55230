@@ -13,9 +13,9 @@ export default class CartDao {
     }
   };
 
-  findOne = async (id) => {
+  findOne = async ({ id: _id }) => {
     try {
-      const oneCart = await cartModel.findOne(id);
+      const oneCart = await cartModel.findOne({ id: _id });
       return oneCart;
     } catch (e) {
       console.log(e);
@@ -41,6 +41,10 @@ export default class CartDao {
       console.log(e);
       return e;
     }
+  };
+  updateProduct = async (product, cart) => {
+    cart.product = [...product];
+    await cart.save();
   };
 
   delete = async (id) => {

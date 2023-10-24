@@ -1,5 +1,6 @@
 import { Router } from "express";
 import * as cartController from "../../controllers/cartController.js";
+import * as ticketController from "../../controllers/ticketController.js";
 import { adminView, userView } from "../../middlewares/securityMidd.js";
 const cartRoute = Router();
 
@@ -10,5 +11,6 @@ cartRoute.post("/:cid/product/:pid", cartController.postAddProductToCart);
 cartRoute.put("/:cid/product/:pid", cartController.putUpdateToCart);
 cartRoute.delete("/:cid/product/:pid", cartController.deleteOneProductToCart);
 cartRoute.delete("/:cid", cartController.deleteProductsToCart);
+cartRoute.get("/purchase", ticketController.POSTNewTicket);
 
 export default cartRoute;

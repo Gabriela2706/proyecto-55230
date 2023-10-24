@@ -56,6 +56,8 @@ export const addProductToCart = async (cidCart, pidProduct) => {
 
 export const updateProdQuantity = async (cidCart, pidProduct, quantity) => {
   try {
+    // solo cambia la cantidad
+    //Esta logica cambia la cantidad pasada por req.body
     const cart = await cartDao.findOne({ _id: cidCart });
     if (!cidCart) return "Cart  Not Found";
     const product = await productDao.findOne({ _id: pidProduct });
@@ -69,6 +71,16 @@ export const updateProdQuantity = async (cidCart, pidProduct, quantity) => {
     });
     cart.save();
     return console.log("Update check!");
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
+};
+
+export const updateCart = async (products, cart) => {
+  try {
+    const update = await cartDao.updateProduct(products, cart);
+    return update;
   } catch (e) {
     console.log(e);
     return e;
@@ -92,11 +104,16 @@ export const deletePidOfCid = async (cidCart, pidProduct) => {
 };
 
 export const deleteCart = async (cidCart) => {
-  if (!cidCart) return "Cart not Found";
-  let idCartDelete = await cartDao.findOne({ _id: cidCart });
-  idCartDelete.products = [];
-  await idCartDelete.save();
-  return console.log("cart empty");
+  try {
+    if (!cidCart) return "Cart not Found";
+    let idCartDelete = await cartDao.findOne({ _id: cidCart });
+    idCartDelete.products = [];
+    await idCartDelete.save();
+    return console.log("cart empty");
+  } catch (e) {
+    console.log(e);
+    return e;
+  }
 };
 //VERIFICO LA CANTIDAD PARA PODER TERMINAR LA COMPRA
 export const stockVerification = async (id, stock, quantity) => {

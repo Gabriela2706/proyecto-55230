@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as productController from "../../controllers/productController.js";
-import { adminView } from "../../middlewares/securityMidd.js";
+import { adminView } from "../../middlewares/securityMidd.js"; //midd para proteger las vistas
 const productRoute = Router();
 
 productRoute.get("/", productController.GETAllProducts);
