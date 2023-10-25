@@ -5,8 +5,8 @@ import { Users, UsersDTO } from "../dto/usersDTO.js";
 
 export const GETCurrent = async (req, res) => {
   try {
-    const userFront = Users;
-    res.send(userFront); // al front le mando el user con la informacion recortada, solo nombre y apellido.
+    const userFront = new Users();
+    res.status(200).send({ error: false, userFront }); // al front le mando el user con la informacion recortada, solo nombre y apellido.
   } catch (e) {
     res.status(401).send({ error: true, msg: e.message });
   }
@@ -39,6 +39,7 @@ export const POSTLoginStrategyLocal = async (req, res) => {
 
 export const POSTRegisterStrategyLocal = async (req, res) => {
   try {
+    const userDTO = new UsersDTO();
     const { name, lastName, email, age, password } = req.body;
     const register = await userService.addNewUser({
       name,
@@ -47,16 +48,16 @@ export const POSTRegisterStrategyLocal = async (req, res) => {
       age,
       password,
     });
-    res.send({ error: false, register: UsersDTO }); // al back le mando la info del dto
+    res.status(200).send({ error: false, register: userDTO }); // al back le mando la info del dto
   } catch (e) {
-    res.send({ error: true });
+    res.status(401).send({ error: true, msg: e.message });
   }
 };
 export const GETRedirectLoginGitHub = async (req, res) => {};
 export const GETCallbackLoginGitHub = async (req, res) => {};
 export const GETViewLogin = async (req, res) => {
   try {
-    res.render(`login`);
+    res.status(200).render(`login`);
   } catch (e) {
     res.status(404).send({ error: true, msg: e.message });
   }
@@ -64,7 +65,7 @@ export const GETViewLogin = async (req, res) => {
 
 export const GETViewRegister = async (req, res) => {
   try {
-    res.render(`register`);
+    res.status(200).render(`register`);
   } catch (e) {
     res.status(404).send({ error: true, msg: e.message });
   }
@@ -72,14 +73,14 @@ export const GETViewRegister = async (req, res) => {
 export const GETViewProfile = async (req, res) => {
   try {
     let products = await getAllProducts();
-    res.render(`home`, { prod: products }); // a la vista profile le mando la info para el front y los productos disponibles.
+    res.status(200).render(`home`, { prod: products }); // a la vista profile le mando la info para el front y los productos disponibles.
   } catch (e) {
     res.status(404).send({ error: true, msg: e.message });
   }
 };
 export const GETChat = async (req, res) => {
   try {
-    res.render(`chat`);
+    res.status(200).render(`chat`);
   } catch (e) {
     res.status(404).send({ error: true, msg: e.message });
   }
@@ -88,7 +89,7 @@ export const GETChat = async (req, res) => {
 export const GETLogout = async (req, res) => {
   try {
     req.session.destroy((e) => {
-      res.render(`logout`);
+      res.status(200).render(`logout`);
     });
   } catch (e) {
     res.send({ error: true });

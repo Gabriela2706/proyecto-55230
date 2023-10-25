@@ -3,16 +3,18 @@ export const adminView = (req, res, next) => {
   try {
     const admin = req.email == "admincoder@coder.com" ? "admin" : "visit";
     res.status(200).send({ error: false, admin });
+    next();
   } catch (e) {
-    res.send({ error: true, msg: e.message });
+    res.status(403).send({ error: true, msg: e.message });
   }
 };
 
 export const userView = (req, res, next) => {
   try {
-    if (!req.user) return res.redirect(`login`);
+    if (!req.user) return res.redirect("/user/login");
+    res.status(200).send({ error: false, admin });
     next();
   } catch (e) {
-    res.send({ error: true, msg: e.message });
+    res.status(403).send({ error: true, msg: e.message });
   }
 };

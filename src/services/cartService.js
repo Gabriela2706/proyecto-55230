@@ -1,7 +1,5 @@
 import CartDao from "../dao/mongo/cartDB.js";
-import CartDaoMemory from "../dao/memoria/cartMem.js";
 import ProductDao from "../dao/mongo/productDB.js";
-const cartDaoMemory = new CartDaoMemory();
 const productDao = new ProductDao();
 const cartDao = new CartDao();
 
@@ -11,7 +9,7 @@ export const getAllCarts = async () => {
     //console.log(JSON.stringify(allCarts, null, "\t"));
     return allCarts;
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };
@@ -23,7 +21,7 @@ export const getCartDetail = async (cidCart) => {
 
     return JSON.stringify(cartDetail, null, "\t");
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };
@@ -33,7 +31,7 @@ export const createCart = async (cart) => {
     const newCart = await cartDao.create(cart);
     return newCart;
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };
@@ -49,11 +47,11 @@ export const addProductToCart = async (cidCart, pidProduct) => {
     idCart.save();
     console.log("producto agregado!"); //Funciona, pero no se suman si tienen el mismo ID
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };
-
+//NO SE SI SIRVE
 export const updateProdQuantity = async (cidCart, pidProduct, quantity) => {
   try {
     // solo cambia la cantidad
@@ -72,17 +70,17 @@ export const updateProdQuantity = async (cidCart, pidProduct, quantity) => {
     cart.save();
     return console.log("Update check!");
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };
 
-export const updateCart = async (products, cart) => {
+export const updateCartStock = async (products, cart) => {
   try {
-    const update = await cartDao.updateProduct(products, cart);
+    const update = await cartDao.updateCartProducts(products, cart);
     return update;
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };
@@ -98,7 +96,7 @@ export const deletePidOfCid = async (cidCart, pidProduct) => {
       { new: true }
     );
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };
@@ -109,22 +107,10 @@ export const deleteCart = async (cidCart) => {
     let idCartDelete = await cartDao.findOne({ _id: cidCart });
     idCartDelete.products = [];
     await idCartDelete.save();
-    return console.log("cart empty");
-  } catch (e) {
-    console.log(e);
-    return e;
-  }
-};
-//VERIFICO LA CANTIDAD PARA PODER TERMINAR LA COMPRA
-export const stockVerification = async (id, stock, quantity) => {
-  try {
-    const stockProduct = await productDao.findOne(id); // y si son muchos productos a consultar?
-    //como consulto el stock de ese id? id.stock?
 
-    if (stockProduct.stock > quantity) console.log("hay stock!"); // Si hay, deberia activarse el ticketService.finalizePurchase
-    return console.log("no hay stock!"); //Si no hay, deberia activarse el ticketService.incompletePurchase
+    return res.status(200).send({ error: false, msg: "Cart empty" });
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };

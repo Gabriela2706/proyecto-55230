@@ -1,6 +1,6 @@
 import TicketDao from "../dao/mongo/ticketDB.js";
 const ticketDao = new TicketDao();
-import { getCartDetail, updateCart } from "./cartService.js";
+import { getCartDetail, updateCartStock } from "./cartService.js";
 
 export const getTicketByCode = async (code) => {
   try {
@@ -30,7 +30,7 @@ export const createNewTicket = async () => {
     );
 
     //paso 3 - guardar los productos que no tienen stock en el mismo carrito
-    const productosSinStock = await updateCart(sinStock, cartId);
+    const productosSinStock = await updateCartStock(sinStock, cartId);
 
     return productosSinStock;
 

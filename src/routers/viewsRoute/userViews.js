@@ -7,5 +7,5 @@ const userViewsRoute = Router();
 userViewsRoute.get("/login", userViewsController.GETViewLogin);
 userViewsRoute.get("/register", userViewsController.GETViewRegister);
 userViewsRoute.get("/logout", userView, userViewsController.GETLogout);
-userViewsRoute.get("/chat", userViewsController.GETChat);
+userViewsRoute.get("/chat", userView, userViewsController.GETChat);
 export default userViewsRoute;

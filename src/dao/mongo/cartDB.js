@@ -42,9 +42,14 @@ export default class CartDao {
       return e;
     }
   };
-  updateProduct = async (product, cart) => {
-    cart.product = [...product];
-    await cart.save();
+  updateCartProducts = async (product, cart) => {
+    try {
+      cart.product = [...product];
+      await cart.save();
+    } catch (e) {
+      console.log(e);
+      return e;
+    }
   };
 
   delete = async (id) => {

@@ -1,24 +1,26 @@
 import UserDao from "../dao/mongo/userDB.js";
 import bcrypt from "bcrypt";
-import { UsersDTO } from "../dto/usersDTO.js";
+import { Users, UsersDTO } from "../dto/usersDTO.js";
 const userDao = new UserDao();
+//const users = new Users();
 
 export const getAllUsers = async () => {
   try {
     const allUsers = await userDao.find();
-    return allUsers.map((user) => new Users(user));
+    //return allUsers.map((user) => users(user));// no funciona el DTO
+    return allUsers;
   } catch (e) {
-    console.log(e.message);
+    res.status(404).send({ error: true, msg: e });
   }
 };
 
 export const getUserByID = async (id) => {
   try {
-    const oneUser = await userDao.findOne(id);
+    const oneUser = await userDao.findOne({ _id: id });
     if (!oneUser) return `User not found`;
     return oneUser.toObject();
   } catch (e) {
-    console.log(e.message);
+    res.status(404).send({ error: true, msg: e });
   }
 };
 export const addNewUser = async (user) => {
@@ -32,7 +34,7 @@ export const addNewUser = async (user) => {
 
     return createUser.toObject();
   } catch (e) {
-    console.log(e.message);
+    res.status(404).send({ error: true, msg: e });
   }
 };
 
@@ -45,7 +47,7 @@ export const loginUser = async (email, password) => {
 
     return newLogin ? oneUser.toObject() : false;
   } catch (e) {
-    console.log(e.message);
+    res.status(404).send({ error: true, msg: e });
   }
 };
 
@@ -54,7 +56,7 @@ export const userExists = async (email) => {
     const user = await userDao.findOne({ email });
     if (user) return console.log("Existing email");
   } catch (e) {
-    console.log(e.message);
+    res.status(404).send({ error: true, msg: e });
   }
 };
 
@@ -63,6 +65,6 @@ export const idUserExists = async (id) => {
     const idExist = await userDao.findOne(id);
     if (idExist) return false;
   } catch (e) {
-    console.log(e.message);
+    res.status(404).send({ error: true, msg: e });
   }
 };

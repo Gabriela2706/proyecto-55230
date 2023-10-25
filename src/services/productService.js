@@ -6,20 +6,18 @@ export const getAllProducts = async () => {
     const allProducts = await productDao.find();
     return allProducts;
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
     return e;
   }
 };
 export const getProductById = async (id) => {
   try {
-    const findProduct = await productDao.findOne(id);
-    if (findProduct) {
-      return findProduct;
-    } else {
-      return `Product with id: ${id} is not found in the list`;
+    const findProduct = await productDao.findOne({ _id: id });
+    if (!findProduct) {
+      return `Product with id: ${id} is not found.`;
     }
   } catch (e) {
-    console.log(e.message);
+    res.status(404).send({ msg: e });
   }
 };
 export const addNewProduct = async (product) => {
@@ -32,7 +30,7 @@ export const addNewProduct = async (product) => {
     const newProduct = await productDao.create(product);
     return newProduct;
   } catch (e) {
-    console.log(e.message);
+    res.status(404).send({ msg: e });
   }
 };
 export const updatePropertiesOfProd = async (idUpdate, update) => {
@@ -44,7 +42,7 @@ export const updatePropertiesOfProd = async (idUpdate, update) => {
     await productDao.update(update);
     return `Product with changes made`;
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
   }
 };
 export const deleteProduct = async (id) => {
@@ -52,6 +50,6 @@ export const deleteProduct = async (id) => {
     await productDao.delete(id);
     return `Product successfully removed`;
   } catch (e) {
-    console.log(e);
+    res.status(404).send({ msg: e });
   }
 };
