@@ -8,7 +8,7 @@ export const GETCurrent = async (req, res) => {
     const userFront = new Users();
     res.status(200).send({ error: false, userFront }); // al front le mando el user con la informacion recortada, solo nombre y apellido.
   } catch (e) {
-    res.status(401).send({ error: true, msg: e.message });
+    res.status(401).send({ error: true, error: e.message });
   }
 };
 
@@ -33,7 +33,7 @@ export const POSTLoginStrategyLocal = async (req, res) => {
     });
     res.send({ error: false, accessToken: token });
   } catch (e) {
-    res.status(401).send({ error: true, msg: e.message });
+    res.status(401).send({ error: true, error: e.message });
   }
 };
 
@@ -50,7 +50,7 @@ export const POSTRegisterStrategyLocal = async (req, res) => {
     });
     res.status(200).send({ error: false, register: userDTO }); // al back le mando la info del dto
   } catch (e) {
-    res.status(401).send({ error: true, msg: e.message });
+    res.status(401).send({ error: true, error: e.message });
   }
 };
 export const GETRedirectLoginGitHub = async (req, res) => {};
@@ -59,7 +59,7 @@ export const GETViewLogin = async (req, res) => {
   try {
     res.status(200).render(`login`);
   } catch (e) {
-    res.status(404).send({ error: true, msg: e.message });
+    res.status(404).send({ error: true, error: e.message });
   }
 };
 
@@ -67,7 +67,7 @@ export const GETViewRegister = async (req, res) => {
   try {
     res.status(200).render(`register`);
   } catch (e) {
-    res.status(404).send({ error: true, msg: e.message });
+    res.status(404).send({ error: true, error: e.message });
   }
 };
 export const GETViewProfile = async (req, res) => {
@@ -75,14 +75,14 @@ export const GETViewProfile = async (req, res) => {
     let products = await getAllProducts();
     res.status(200).render(`home`, { prod: products }); // a la vista profile le mando la info para el front y los productos disponibles.
   } catch (e) {
-    res.status(404).send({ error: true, msg: e.message });
+    res.status(404).send({ error: true, error: e.message });
   }
 };
 export const GETChat = async (req, res) => {
   try {
     res.status(200).render(`chat`);
   } catch (e) {
-    res.status(404).send({ error: true, msg: e.message });
+    res.status(404).send({ error: true, error: e.message });
   }
 };
 

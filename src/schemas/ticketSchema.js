@@ -5,14 +5,15 @@ const ticketSchema = new mongoose.Schema({
     type: String,
     require: true,
   },
+  product: [],
   purchaseDateTime: {
     type: Date,
     require: true,
   },
-  amount: { Number }, //Aca deberia referenciar el cart con sus montos sumados.
+  amount: { Number }, //Aca deberia referenciar el cart con sus montos sumados?
   purchaser: {
-    type: String,
-    require: true,
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: "users",
   },
 });
 

@@ -1,4 +1,5 @@
 import * as productService from "../services/productService.js";
+import generateProducts from "../utils/generateProducts.js";
 
 export const GETAllProducts = async (req, res) => {
   try {
@@ -12,7 +13,7 @@ export const GETAllProducts = async (req, res) => {
     let products = await productService.getAllProducts();
     res.status(200).send({ error: false, products });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
   }
 };
 
@@ -22,7 +23,7 @@ export const GETProductById = async (req, res) => {
     let productWhitId = await productService.getProductById(id);
     res.status(200).send({ error: false, productWhitId });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
   }
 };
 
@@ -32,7 +33,7 @@ export const POSTAddNewProduct = async (req, res) => {
     const newProduct = await productService.addNewProduct(body);
     res.status(200).send({ error: false, newProduct });
   } catch (e) {
-    res.status(401).send({ error: true, msg: e });
+    res.status(401).send({ error: true, error: e.message });
   }
 };
 
@@ -43,7 +44,7 @@ export const PUTUpdatePropertiesOfProd = async (req, res) => {
     const changes = await productService.updatePropertiesOfProd(id, update);
     res.status(200).send({ error: false, changes });
   } catch (e) {
-    res.status(401).send({ error: true, msg: e });
+    res.status(401).send({ error: true, error: e.message });
   }
 };
 
@@ -53,7 +54,7 @@ export const DELETEProduct = async (req, res) => {
     let removeProduct = await productService.deleteProduct(id);
     res.status(200).send({ error: false, removeProduct });
   } catch (e) {
-    res.status(401).send({ error: true, msg: e });
+    res.status(401).send({ error: true, error: e.message });
   }
 };
 
@@ -63,7 +64,7 @@ export const GETProducstHome = async (req, res) => {
     const products = await productService.getAllProducts();
     res.status(200).send(`home`, { prod: products });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
   }
 };
 
@@ -71,7 +72,7 @@ export const GETFormNewProduct = async (req, res) => {
   try {
     res.status(200).render(`formNewProduct`);
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
   }
 };
 
@@ -80,6 +81,18 @@ export const GETDetailProduct = async (req, res) => {
     const detailProduct = await productService.getProductById(id);
     res.status(200).render(`products`, { prod: detailProduct });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
+  }
+};
+
+export const POSTMockingProducts = async (req, res) => {
+  try {
+    const productFaker = [];
+    for (let p = 0; p < 10; p++) {
+      productFaker.push(generateProducts());
+    }
+    res.send(productFaker);
+  } catch (e) {
+    res.status(404).send({ status: "Not found", error: e.message });
   }
 };

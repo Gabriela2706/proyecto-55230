@@ -5,7 +5,7 @@ export const GETTickerByCode = async (req, res) => {
     const ticket = await ticketService.getTicketByCode(code);
     res.status(200).send({ error: false, ticket });
   } catch (e) {
-    res.status(401).send({ error: true, msg: e.message });
+    res.status(401).send({ error: true, error: e.message });
   }
 };
 
@@ -16,6 +16,6 @@ export const POSTNewTicket = async (req, res) => {
     const newTicket = await ticketService.createNewTicket(ticket);
     res.status(200).send({ error: false, newTicket });
   } catch (e) {
-    res.status(401).send({ error: true, msg: e.message });
+    res.status(401).send({ error: true, error: e.message });
   }
 };

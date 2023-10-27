@@ -6,7 +6,7 @@ export const getAllCarts = async (req, res) => {
     let allCarts = await cartService.getAllCarts();
     res.status(200).send({ error: false, allCarts });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
     return e;
   }
 };
@@ -19,7 +19,7 @@ export const getCartById = async (req, res) => {
 
     res.status(200).send({ error: false, cartById });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
     return e;
   }
 };
@@ -30,7 +30,7 @@ export const postCreateCart = async (req, res) => {
     const newCart = await cartService.createCart(req.body);
     res.status(200).send({ error: false, newCart });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
     return e;
   }
 };
@@ -41,7 +41,7 @@ export const postAddProductToCart = async (req, res) => {
     const addproducts = await cartService.addProductToCart(cid, pid);
     res.status(200).send({ error: false, addproducts });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
     return e;
   }
 };
@@ -57,7 +57,7 @@ export const putUpdateToCart = async (req, res) => {
     );
     res.status(200).send({ error: false, changeQuantity });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
     return e;
   }
 };
@@ -68,7 +68,7 @@ export const deleteOneProductToCart = async (req, res) => {
     const deleteFromCart = await cartService.deletePidOfCid(cid, pid);
     res.status(200).send({ error: false, deleteFromCart });
   } catch (e) {
-    res.status(401).send({ error: true, msg: e });
+    res.status(401).send({ error: true, error: e.message });
     return e;
   }
 };
@@ -79,7 +79,7 @@ export const deleteProductsToCart = async (req, res) => {
     const deleteCart = await cartService.deleteCart(cid);
     res.status(200).send({ error: false, deleteCart });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
     return e;
   }
 };
@@ -90,7 +90,7 @@ export const POSTPurchase = async (req, res) => {
     const stockVerification = await cartService.stockVerification();
     res.status(200).send({ error: false, stockVerification });
   } catch (e) {
-    res.status(401).send({ error: true, msg: e });
+    res.status(401).send({ error: true, error: e.message });
     return e;
   }
 };
@@ -102,6 +102,6 @@ export const GETOneCart = async (req, res) => {
     let cart = await cartService.getCartDetail(cid);
     res.status(200).render(`cartDetail`, { oneCart: cart });
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    res.status(404).send({ error: true, error: e.message });
   }
 };

@@ -15,6 +15,9 @@ import config from "./config/config.js";
 import { Server as SocketServer } from "socket.io";
 import productViewsRoute from "./routers/viewsRoute/productViews.js";
 import cartViewsRoute from "./routers/viewsRoute/cartViews.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import { serve, setup } from "swagger-ui-express";
+import options from "./config/swagger.js";
 
 const app = express();
 
@@ -27,6 +30,9 @@ app.set("views", `${__dirname}/views`); // le digo donde van a estar las vistas
 app.set("view engine", "handlebars"); // aca le digo cual es el motor que se va a utilizar para leer esas vistas
 
 //USO DE MIDDLWARES
+
+const specs = swaggerJSDoc(options);
+
 app.use(express.urlencoded({ extended: true })); //Esto me sirve para req.query para transformar el texto plano a objeto
 app.use(express.json());
 app.use(cookieParser());
@@ -46,6 +52,7 @@ app.use(
 
 //RUTAS DE EXPRESS
 //API
+app.use("/api/docs", serve, setup(specs));
 app.use("/api/cart", cartRoute);
 app.use("/api/product", productRoute);
 app.use("/api/user", userRoute);

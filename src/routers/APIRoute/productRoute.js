@@ -12,5 +12,6 @@ productRoute.put(
   productController.PUTUpdatePropertiesOfProd
 );
 productRoute.delete("/:pid", adminView, productController.DELETEProduct);
+productRoute.post("/mockingProducts", productController.POSTMockingProducts);
 
 export default productRoute;
