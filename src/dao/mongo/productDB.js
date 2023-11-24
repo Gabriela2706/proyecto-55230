@@ -14,12 +14,12 @@ export default class ProductDao {
     }
   };
 
-  findOne = async (id) => {
+  findOne = async ({ id: _id }) => {
     try {
-      const oneProduct = await productModel.findOne(id);
+      const oneProduct = await productModel.findOne({ id: _id });
+
       return oneProduct;
     } catch (e) {
-      console.log(e);
       return e;
     }
   };

@@ -33,7 +33,7 @@ function chat() {
   socketCliente.emit("guardarChat", chatHistory);
 }
 
-//funcion guardar datos del registro
+// //funcion guardar datos del registro
 // function registerUsers() {
 //   const name = document.getElementById("name").value;
 //   const lastname = document.getElementById("lastname").value;
@@ -48,4 +48,4 @@ function chat() {
 //   };
 
 //   socketCliente.emit("registrarusuario", infoUsers);
-// }
+//}

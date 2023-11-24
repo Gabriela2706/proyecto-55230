@@ -1,4 +1,4 @@
-import { ProductDao } from "../dao/index.js";
+import ProductDao from "../dao/mongo/productDB.js";
 const productDao = new ProductDao();
 
 export const getAllProducts = async () => {
@@ -10,23 +10,20 @@ export const getAllProducts = async () => {
     return e;
   }
 };
-export const getProductById = async (id) => {
+export const getProductById = async ({ id: _id }) => {
   try {
-    const findProduct = await productDao.findOne({ _id: id });
+    const findProduct = await productDao.findOne({ id: _id });
+
     if (!findProduct) {
-      return `Product with id: ${id} is not found.`;
+      return `Product with id: ${{ id: _id }} is not found.`;
     }
+    return findProduct;
   } catch (e) {
     res.status(404).send({ msg: e });
   }
 };
 export const addNewProduct = async (product) => {
   try {
-    //onst { code } = product;
-    // const validation = await productDao.findOne({ code: code });
-    // if (validation) {
-    //   return `Product with existing code: ${code}`;
-    // }
     const newProduct = await productDao.create(product);
     return newProduct;
   } catch (e) {

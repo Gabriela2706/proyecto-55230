@@ -17,7 +17,7 @@ export const getCartById = async (req, res) => {
     const { cid } = req.params;
     const cartById = await cartService.getCartDetail(cid);
 
-    res.status(200).send({ error: false, cartById });
+    res.status(200).send(cartById);
   } catch (e) {
     res.status(404).send({ error: true, error: e.message });
     return e;
@@ -28,7 +28,7 @@ export const postCreateCart = async (req, res) => {
   try {
     const { products } = [];
     const newCart = await cartService.createCart(req.body);
-    res.status(200).send({ error: false, newCart });
+    res.status(200).send(newCart);
   } catch (e) {
     res.status(404).send({ error: true, error: e.message });
     return e;
@@ -39,10 +39,11 @@ export const postAddProductToCart = async (req, res) => {
   try {
     const { cid, pid } = req.params;
     const addproducts = await cartService.addProductToCart(cid, pid);
-    res.status(200).send({ error: false, addproducts });
+
+    res.send(addproducts);
   } catch (e) {
-    res.status(404).send({ error: true, error: e.message });
-    return e;
+    //res.status(404).send({ error: true, msg: e.message });
+    res.send(e);
   }
 };
 
@@ -55,9 +56,10 @@ export const putUpdateToCart = async (req, res) => {
       pid,
       quantity
     );
-    res.status(200).send({ error: false, changeQuantity });
+
+    res.status(200).send("Ok desde el controller");
   } catch (e) {
-    res.status(404).send({ error: true, error: e.message });
+    res.send({ msg: "error desde el controller" });
     return e;
   }
 };
@@ -66,7 +68,7 @@ export const deleteOneProductToCart = async (req, res) => {
   try {
     const { cid, pid } = req.params;
     const deleteFromCart = await cartService.deletePidOfCid(cid, pid);
-    res.status(200).send({ error: false, deleteFromCart });
+    res.status(200).send(deleteFromCart);
   } catch (e) {
     res.status(401).send({ error: true, error: e.message });
     return e;

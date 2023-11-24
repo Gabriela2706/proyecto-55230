@@ -16,6 +16,8 @@ export default class UserDao {
   findOne = async (email) => {
     try {
       const oneUser = await userModel.findOne({ email });
+      console.log(`Este es el email pasado por parametro ${email} en el db`);
+
       return oneUser;
     } catch (e) {
       console.log(e);

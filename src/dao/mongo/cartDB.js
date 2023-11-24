@@ -13,9 +13,9 @@ export default class CartDao {
     }
   };
 
-  findOne = async ({ id: _id }) => {
+  findOne = async ({ _id: id }) => {
     try {
-      const oneCart = await cartModel.findOne({ id: _id });
+      const oneCart = await cartModel.findOne({ _id: id });
       return oneCart;
     } catch (e) {
       console.log(e);

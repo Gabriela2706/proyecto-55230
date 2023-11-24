@@ -19,7 +19,7 @@ const initLocalStrategy = () => {
 
         const body = req.body;
         const newUser = await userService.addNewUser(body);
-        return next(null, newUser.toObject());
+        return next(null, newUser);
       }
     )
   );

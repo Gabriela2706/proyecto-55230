@@ -1,5 +1,8 @@
 import * as productService from "../services/productService.js";
+import CustomError from "../utils/errors/customError.js";
+import errors from "../utils/errors/errorDictionary.js";
 import generateProducts from "../utils/generateProducts.js";
+import errorNewProduct from "../utils/errors/generateErrors.js";
 
 export const GETAllProducts = async (req, res) => {
   try {
@@ -19,9 +22,10 @@ export const GETAllProducts = async (req, res) => {
 
 export const GETProductById = async (req, res) => {
   try {
-    const { id } = req.params;
-    let productWhitId = await productService.getProductById(id);
-    res.status(200).send({ error: false, productWhitId });
+    const { pid } = req.params;
+    let productWhitId = await productService.getProductById({ pid });
+
+    res.status(200).send(productWhitId);
   } catch (e) {
     res.status(404).send({ error: true, error: e.message });
   }
@@ -29,11 +33,20 @@ export const GETProductById = async (req, res) => {
 
 export const POSTAddNewProduct = async (req, res) => {
   try {
-    const body = req.body;
-    const newProduct = await productService.addNewProduct(body);
+    const product = req.body;
+    if (!product) return;
+    CustomError.createError({
+      message:
+        "Este es un error que se produce al intentar cargar un nuevo Producto",
+      cause: errorNewProduct({ product }),
+      name: "Error nuevo producto",
+      code: errors.PRODUCT_ERROR,
+    });
+
+    const newProduct = await productService.addNewProduct(product);
     res.status(200).send({ error: false, newProduct });
   } catch (e) {
-    res.status(401).send({ error: true, error: e.message });
+    res.status(401).send({ error: true }); //SI DEJO ESTE MSJ ME TOMA EL MENSAJE DEL CUSTOM. PERO NO CAE EN EL CUSTOM
   }
 };
 

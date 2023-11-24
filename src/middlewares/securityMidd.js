@@ -11,7 +11,7 @@ export const adminView = (req, res, next) => {
 
 export const userView = (req, res, next) => {
   try {
-    if (!req.user) return res.redirect("/user/login");
+    if (!req.user) return res.redirect("/users/login");
     res.status(200).send({ error: false, admin });
     next();
   } catch (e) {

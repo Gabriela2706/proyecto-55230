@@ -37,40 +37,56 @@ export const createCart = async (cart) => {
 };
 
 export const addProductToCart = async (cidCart, pidProduct) => {
+  //funciona, pero no suma
   try {
+    //const products = [];
+    // const cart = await cartDao.findOne({ _id: cidCart });
     const idCart = await cartDao.findOne({ _id: cidCart });
-    if (!idCart) return "Cart  Not Found";
+    if (!idCart) return "Cart Not Found";
     const idProduct = await productDao.findOne({ _id: pidProduct });
     if (!idProduct) return "Product Not Found";
-
+    // const exist = cart.products.some((product) => product._id == pidProduct); //funciona
+    // console.log(`el producto agregado ya existe ${pidProduct}`);
+    // if (exist) {
+    //   const productCart = products.map((product) => {
+    //     if (product._id == pidProduct) {
+    //       product.quantity++;
+    //       return console.log("producto sumado");
+    //     } else {
+    //       return console.log("producto agregado pero no sumado");
+    //     }
+    //   });
+    //   cart = [...productCart];
+    //   return cart;
+    // }
     idCart.products.push({ product: idProduct });
     idCart.save();
-    console.log("producto agregado!"); //Funciona, pero no se suman si tienen el mismo ID
+    console.log("producto agregado!");
   } catch (e) {
-    res.status(404).send({ msg: e });
+    res.status(404).send({ error: e.message });
     return e;
   }
 };
-//NO SE SI SIRVE
-export const updateProdQuantity = async (cidCart, pidProduct, quantity) => {
+
+export const updateProdQuantity = async (cidCart, pidProduct, { quantity }) => {
   try {
-    // solo cambia la cantidad
-    //Esta logica cambia la cantidad pasada por req.body
+    console.log(quantity);
+
     const cart = await cartDao.findOne({ _id: cidCart });
     if (!cidCart) return "Cart  Not Found";
     const product = await productDao.findOne({ _id: pidProduct });
     if (!product) return "Product not Exist";
 
     cart.products.map((p) => {
-      if (p.product._id == pidProduct) {
+      if (p._id === pidProduct) {
         p.quantity = quantity;
       }
       return p;
     });
     cart.save();
-    return console.log("Update check!");
+    return console.log(`Update check! La cantidad se cambio a: ${quantity}`);
   } catch (e) {
-    res.status(404).send({ msg: e });
+    res.send("error en el service");
     return e;
   }
 };
@@ -101,7 +117,7 @@ export const deletePidOfCid = async (cidCart, pidProduct) => {
   }
 };
 
-export const deleteCart = async (cidCart) => {
+export const deleteCart = async ({ _id: cidCart }) => {
   try {
     if (!cidCart) return "Cart not Found";
     let idCartDelete = await cartDao.findOne({ _id: cidCart });

@@ -1,14 +1,14 @@
-//DTO para el back - esto viene del req.body
-export class UsersDTO {
-  constructor(user) {
-    this.fullName = `${user.name} ${user.lastName}`;
-    this.email = user.email;
-    this.age = user.age;
-    this.role = user.role;
+//DTO para el back - esto viene del req.body y es info para el back
+export class UsersDTOResponseBack {
+  constructor(info) {
+    this.fullName = `${info.name} ${info.lastName}`;
+    this.email = info.email;
+    this.age = info.age;
+    this.role = info.role;
   }
 }
 //DTO para el front
-export class Users {
+export class UsersDTOResponseFront {
   constructor(user) {
     const [name, lastName] = user?.fullName.split(" ");
     this.name = name;

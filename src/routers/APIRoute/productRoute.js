@@ -1,11 +1,13 @@
 import { Router } from "express";
 import * as productController from "../../controllers/productController.js";
 import { adminView } from "../../middlewares/securityMidd.js"; //midd para proteger las vistas
+import errorHandler from "../../utils/errors/errorMiddleware.js";
+
 const productRoute = Router();
 
 productRoute.get("/", productController.GETAllProducts);
 productRoute.get("/:pid", productController.GETProductById);
-productRoute.post("/", adminView, productController.POSTAddNewProduct);
+productRoute.post("/", errorHandler, productController.POSTAddNewProduct);
 productRoute.put(
   "/:pid",
   adminView,

@@ -1,14 +1,19 @@
 import * as userService from "../services/userService.js";
 import { getAllProducts } from "../services/productService.js";
 import { tokenGenerate } from "../config/jwt.js";
-import { Users, UsersDTO } from "../dto/usersDTO.js";
+import {
+  UsersDTOResponseBack,
+  UsersDTOResponseFront,
+} from "../dto/usersDTO.js";
 
 export const GETCurrent = async (req, res) => {
+  //  NO FUNCIONA, SALE "Unauthorized"
   try {
-    const userFront = new Users();
-    res.status(200).send({ error: false, userFront }); // al front le mando el user con la informacion recortada, solo nombre y apellido.
+    let userCurrent = await userService.getAllUsers();
+    let userFront = new UsersDTOResponseFront(userCurrent);
+    res.status(200).send(userFront);
   } catch (e) {
-    res.status(401).send({ error: true, error: e.message });
+    res.send({ error: true, msg: e.message });
   }
 };
 
@@ -31,7 +36,7 @@ export const POSTLoginStrategyLocal = async (req, res) => {
       maxAge: 12 * 60 * 60 * 1000,
       httpOnly: true,
     });
-    res.send({ error: false, accessToken: token });
+    res.send({ accessToken: token });
   } catch (e) {
     res.status(401).send({ error: true, error: e.message });
   }
@@ -39,7 +44,8 @@ export const POSTLoginStrategyLocal = async (req, res) => {
 
 export const POSTRegisterStrategyLocal = async (req, res) => {
   try {
-    const userDTO = new UsersDTO();
+    //const userDTO = new UsersDTO();
+    console.log("aca en el controller");
     const { name, lastName, email, age, password } = req.body;
     const register = await userService.addNewUser({
       name,
@@ -48,7 +54,7 @@ export const POSTRegisterStrategyLocal = async (req, res) => {
       age,
       password,
     });
-    res.status(200).send({ error: false, register: userDTO }); // al back le mando la info del dto
+    res.status(200).send(register); // al back le mando la info del dto
   } catch (e) {
     res.status(401).send({ error: true, error: e.message });
   }

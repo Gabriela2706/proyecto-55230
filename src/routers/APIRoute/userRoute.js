@@ -7,22 +7,23 @@ const userRoute = Router();
 userRoute.get(
   "/session/current",
   passport.authenticate("current", { session: false }),
-  userView,
   userController.GETCurrent
 );
+userRoute.get("/login", userController.GETViewLogin);
 userRoute.post(
-  "/",
+  "/login",
   passport.authenticate("login", {
-    successRedirect: "/user/profile",
+    successRedirect: "/api/users/profile",
     failureMessage: "No se pudo realizar el ingreso correctamente",
   }),
   userController.POSTLoginStrategyLocal
 );
 userRoute.get("/profile", userController.GETViewProfile);
+userRoute.get("/register", userController.GETViewRegister);
 userRoute.post(
   "/register",
   passport.authenticate("register", {
-    successRedirect: "/login",
+    successRedirect: "/api/users/login",
     failureMessage: "No se pudo realizar el registro correctamente",
   }),
   userController.POSTRegisterStrategyLocal
@@ -42,4 +43,8 @@ userRoute.get(
   userController.GETCallbackLoginGitHub
 );
 
+//vistas
+
+userRoute.get("/logout", userView, userController.GETLogout);
+userRoute.get("/chat", userView, userController.GETChat);
 export default userRoute;

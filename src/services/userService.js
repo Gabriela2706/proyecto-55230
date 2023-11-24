@@ -1,8 +1,6 @@
 import UserDao from "../dao/mongo/userDB.js";
 import bcrypt from "bcrypt";
-import { Users, UsersDTO } from "../dto/usersDTO.js";
 const userDao = new UserDao();
-//const users = new Users();
 
 export const getAllUsers = async () => {
   try {
@@ -25,12 +23,13 @@ export const getUserByID = async (id) => {
 };
 export const addNewUser = async (user) => {
   try {
-    const userDTO = new UsersDTO(user);
+    //const userDTO = new UsersDTO(user);
     //name, lastName, email, password, role
+    console.log(user);
     user.role = user.email == "admincoder@coder.com" ? "admin" : "visit";
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
-    const createUser = await userDao.create(userDTO);
+    const createUser = await userDao.create(user);
 
     return createUser.toObject();
   } catch (e) {
@@ -40,14 +39,15 @@ export const addNewUser = async (user) => {
 
 export const loginUser = async (email, password) => {
   try {
+    console.log(`${email}, parametro leido desde el service`);
     const oneUser = await userDao.findOne(email);
-
+    console.log(`${email}, leido despues del findOne del service`);
     if (!oneUser) return false;
     const newLogin = await bcrypt.compare(password, oneUser.password);
 
-    return newLogin ? oneUser.toObject() : false;
+    return newLogin ? oneUser : false;
   } catch (e) {
-    res.status(404).send({ error: true, msg: e });
+    console.log(e.message);
   }
 };
 

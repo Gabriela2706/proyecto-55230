@@ -18,6 +18,8 @@ import cartViewsRoute from "./routers/viewsRoute/cartViews.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import { serve, setup } from "swagger-ui-express";
 import options from "./config/swagger.js";
+import errorHandler from "./utils/errors/errorMiddleware.js";
+import winstonLogger from "./middlewares/loggerMidd.js";
 
 const app = express();
 
@@ -49,17 +51,20 @@ app.use(
     ttl: 3000,
   })
 );
-
+app.use(winstonLogger);
 //RUTAS DE EXPRESS
 //API
 app.use("/api/docs", serve, setup(specs));
-app.use("/api/cart", cartRoute);
-app.use("/api/product", productRoute);
-app.use("/api/user", userRoute);
+app.use("/api/carts", cartRoute);
+app.use("/api/products", productRoute);
+app.use("/api/users", userRoute);
 //VISTAS
-app.use("/user", userViewsRoute);
-app.use("/cart", cartViewsRoute);
-app.use("/product", productViewsRoute);
+app.use("/users", userViewsRoute);
+app.use("/carts", cartViewsRoute);
+app.use("/products", productViewsRoute);
+
+//MIDDLEWARE DE MANEJO DE ERRORES
+app.use(errorHandler);
 
 //CONTENIDO ESTATICO
 app.use(express.static(`${__dirname}/public`));
@@ -71,13 +76,16 @@ app.use(passport.session());
 
 //INICIALIZACION DE EXPRESS
 const appServer = app.listen(config.PORT, () => {
-  console.log("servidor corriendo");
+  console.log(`servidor corriendo en puerto ${config.PORT}`);
 });
 
 //SOCKET IO
 //ENVOLTORIO DE SOCKET IO
 const io = new SocketServer(appServer);
-//
 io.on("connection", async (SocketServer) => {
   console.log(`Cliente con id: ${SocketServer.id} se ha conectado`);
+
+  // SocketServer.on("registrarusuario", async (user) => {
+  //   console.log(user);
+  // });
 });
